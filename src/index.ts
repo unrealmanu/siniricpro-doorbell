@@ -9,7 +9,13 @@ import ENV from './env';
 
 const sinricpro = new SinricPro(ENV.appKey, ENV.deviceId, ENV.secretKey, true);
 
-SinricProActionsObservable(sinricpro).subscribe(
+const callback = {
+  setPowerState: (device: string): void => {
+    console.log('powerstare callback', device);
+  },
+};
+
+SinricProActionsObservable(sinricpro, callback).subscribe(
   (emit: any) => {
     console.log(emit);
     raiseEvent(sinricpro, eventNames.powerState, ENV.deviceId, { state: 'On' });
@@ -23,9 +29,3 @@ SinricProActionsObservable(sinricpro).subscribe(
     console.log('Disconnected');
   }
 );
-
-/*
-setInterval(() => {
- 
-}, 2000);
-*/
